@@ -1,37 +1,25 @@
 {
+  "id": "/speedtest/",
   "name": "Speedtest",
   "short_name": "Speedtest",
-  "description": "Meet je download-, upload- en pingsnelheid.",
-  "lang": "nl",
-  "dir": "ltr",
-  "start_url": "./",
-  "scope": "./",
-  "id": "./",
+  "description": "Internet speed test",
+  "start_url": "/speedtest/",
+  "scope": "/speedtest/",
   "display": "standalone",
-  "background_color": "#08080a",
-  "theme_color": "#08080a",
-  "categories": [
-    "utilities"
-  ],
+  "background_color": "#050505",
+  "theme_color": "#050505",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "/speedtest/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "/speedtest/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
-    },
-    {
-      "src": "icons/maskable-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     }
-  ],
-  "prefer_related_applications": false
+  ]
 }

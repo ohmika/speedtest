@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPEEDTEST V5 UNIVERSAL SLIDER</title>
+<title>SPEEDTEST</title>
 <meta name="theme-color" content="#08080a">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -209,12 +209,28 @@ document.getElementById('resetBtn').addEventListener('click',()=>location.reload
 document.getElementById('startBtn').addEventListener('click',startTest);
 getIP();draw();updateLabels();
 </script>
+<button id="installBtn" hidden style="position:fixed;right:14px;bottom:14px;z-index:99;padding:12px 18px;border:0;border-radius:999px;background:#fff;color:#08080a;font:600 14px system-ui,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.5)">Installeer app</button>
 <script>
+// Register the service worker right away (do not wait for the load event)
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(err => console.error('SW registration failed:', err));
-    });
+  navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(err => console.error('SW registration failed:', err));
 }
+// Show our own install button when Chrome says the app is installable
+let deferredPrompt = null;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.hidden = false;
+});
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.hidden = true;
+});
+window.addEventListener('appinstalled', () => { installBtn.hidden = true; });
 </script>
 </body>
 </html>

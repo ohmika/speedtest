@@ -1,4 +1,4 @@
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'speedtest-' + VERSION;
 const CORE = [
   './',
@@ -11,7 +11,12 @@ const CORE = [
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
+  // Cache each file separately: a single missing file must not make the whole install fail
+  event.waitUntil((async () => {
+    const c = await caches.open(CACHE);
+    await Promise.allSettled(CORE.map(u => c.add(u)));
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', event => {
